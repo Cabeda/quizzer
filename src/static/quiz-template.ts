@@ -27,6 +27,27 @@ var template: Quizzer = {
               IsCorrect: false
             }
           ]
+        },
+        {
+          Question: "Who is Dumbledore?",
+          Answers: [
+            {
+              Answer: "Teacher",
+              IsCorrect: true
+            },
+            {
+              Answer: "Headmaster",
+              IsCorrect: false
+            },
+            {
+              Answer: "Geezer",
+              IsCorrect: false
+            },
+            {
+              Answer: "All above",
+              IsCorrect: false
+            }
+          ]
         }
       ]
     },

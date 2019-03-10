@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { IQuestion } from "../Interfaces/Question.interface";
+import { IQuestionProps } from "../Interfaces/Question.interface";
 
-function Question(props: IQuestion) {
+function Question(props: IQuestionProps) {
   return (
     <div>
       <p>{props.Question}</p>
       {
-          props.Answers.map((item, key) =>
-           <button>{item.Answer}</button>)
+        props.Answers.map((item , key) =>
+          <button
+            key={item.Answer}
+            title={item.Answer}
+            onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.Answered(event.currentTarget.title)}
+          >{item.Answer}</button>)
       }
     </div>
   );

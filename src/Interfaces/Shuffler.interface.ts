@@ -1,4 +1,6 @@
+import { IQuestion } from "./Question.interface";
+
 export interface IShuffler {
     Phase: string,
-    QuestionsIndex: Array<number>
+    Questions: Array<IQuestion>
 }
