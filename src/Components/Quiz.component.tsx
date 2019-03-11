@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import template from '../static/quiz-template';
 import Question from './Question.component';
 import { Quizzer } from '../Interfaces/Quizzer.interface.js';
-import { IShuffler } from '../Interfaces/Shuffler.interface.js';
+import { ISfhuffledQuestion as IShuffledQuestion } from '../Interfaces/Shuffler.interface.js';
 import { IPhase } from '../Interfaces/Phase.interface.js';
 import Shuffle from '../Sorter';
 import { IQuestion } from '../Interfaces/Question.interface';
@@ -11,7 +11,7 @@ function Quiz() {
   // Declare a new state variable, which we'll call "count"
   const [questionsAnswered, setCount] = useState(0);
   const [currentPhase] = useState(0);
-  const [shuffledQuiz, setShuffle] = useState<Array<IShuffler>>();
+  const [shuffledQuiz, setShuffle] = useState<Array<IShuffledQuestion>>();
   const [onGame] = useState(true);
   const [quiz, setQuiz] = useState<Quizzer>();
 
@@ -22,28 +22,34 @@ function Quiz() {
   }
 
   const shuffleIt = (template: Quizzer) => {
-    const newQuiz: Array<IShuffler> = template.Phases.map((phase) => {
-        return shufflePhase(phase);
-     });
+    const newQuiz: Array<IShuffledQuestion> = template.Phases.map((phase) => {
+      return shufflePhase(phase);
+    }).flat();
 
     setShuffle(newQuiz);
 
     console.log(newQuiz);
-    
+
   }
 
 
-  const shufflePhase = (phase: IPhase): IShuffler => {
-    let Questions: Array<IQuestion> = Shuffle(phase.Questions).slice(0, phase.NumberOfQuestions - 1);
-
-    return { Phase: phase.Phase, Questions };
+  const shufflePhase = (phase: IPhase): Array<IShuffledQuestion> => {
+    let shuffled: Array<IQuestion> = Shuffle(phase.Questions).slice(0, phase.NumberOfQuestions - 1);
+    let shuffledQUestions: Array<IShuffledQuestion> = shuffled.map( (Question) => {
+        return {Phase: phase.Phase, Question}; 
+    });
+      
+    return shuffledQUestions;
   }
 
   const answerQuestion = (answer: string) => {
     console.log(answer);
 
+    
     setCount(questionsAnswered + 1);
   };
+
+
 
   if (!onGame)
     return (
@@ -53,13 +59,18 @@ function Quiz() {
       </div>
     );
 
+    if(shuffledQuiz && questionsAnswered === shuffledQuiz.length) 
+    return (
+      <div>
+      <p>You Won!!! :)</p>
+    </div>
+    );
 
-
-  if (quiz)
+  if (shuffledQuiz && quiz)
     return (<div>
-      <p>{quiz.Title}</p>
-      <p>{quiz.Phases[currentPhase].Phase}</p>
-      <Question Answered={answerQuestion} Question={quiz.Phases[0].Questions[0].Question} Answers={quiz.Phases[0].Questions[0].Answers}></Question>
+      <p>{quiz.Title} - {questionsAnswered}</p>
+      <p>{shuffledQuiz[questionsAnswered].Phase}</p>
+      <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question.Question} Answers={shuffledQuiz[questionsAnswered].Question.Answers}></Question>
     </div>);
 
 

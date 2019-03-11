@@ -1,6 +1,6 @@
 import { IQuestion } from "./Question.interface";
 
-export interface IShuffler {
+export interface ISfhuffledQuestion {
     Phase: string,
-    Questions: Array<IQuestion>
+    Question: IQuestion
 }
