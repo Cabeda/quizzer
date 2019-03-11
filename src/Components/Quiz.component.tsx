@@ -8,6 +8,15 @@ import Shuffle from '../Sorter';
 import { IQuestion } from '../Interfaces/Question.interface';
 import { IAnswer } from '../Interfaces/Answer.interface';
 import { useDropzone } from 'react-dropzone';
+import styled from 'styled-components';
+
+// Create a Wrapper component that'll render a <section> tag with some styles
+const Buttonizer = styled.button`
+    background-color: darkgrey;
+    border-radius: 10%;
+
+`;
+
 
 function Quiz() {
   // Declare a new state variable, which we'll call "count"
@@ -52,8 +61,6 @@ function Quiz() {
 
     setShuffle(newQuiz);
 
-    console.log(newQuiz);
-
   }
 
 
@@ -67,14 +74,12 @@ function Quiz() {
   }
 
   const answerQuestion = (answer: string) => {
-    console.log(answer);
 
     if (shuffledQuiz) {
       const an = shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.Answer === answer)
 
       if (an && !an.IsCorrect) {
 
-        setCount(0);
         setGameStatus(false);
       } else {
 
@@ -104,6 +109,7 @@ function Quiz() {
     return (
       <div>
         <p>You lost :s</p>
+        <p>Phase: {shuffledQuiz[questionsAnswered].Phase}</p>
         <p>Score: {questionsAnswered}/{shuffledQuiz.length + 1}</p>
         <button onClick= {restartQuiz}>Restart</button>
         <button onClick= {resetQuiz}>Reset</button>
@@ -134,6 +140,7 @@ function Quiz() {
 
     <div>
       <h1>Quizzer</h1>
+      <p>A JSON based quiz shuffler.</p>
       {/* <button onClick={() => importQuiz(template)}>Import Template Quiz</button> */}
       <a href='https://gist.githubusercontent.com/Cabeda/69c1713a6b78100a615f72e7e896ce5b/raw/965419ab56cf00ce6f5529a70eef7aae8ab26346/template-quiz.json' target="_blank">Download Template Quiz</a>
       <div {...getRootProps()}>
