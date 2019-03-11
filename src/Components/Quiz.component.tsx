@@ -10,11 +10,23 @@ import { IAnswer } from '../Interfaces/Answer.interface';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 
-// Create a Wrapper component that'll render a <section> tag with some styles
-const Buttonizer = styled.button`
-    background-color: darkgrey;
-    border-radius: 10%;
+const Link = styled.a`
+    background-color: #FFC107;
+    color: #FFFFFF;
+    font-size: 1rem;
+    box-shadow: 2px 4px gray;
+    text-decoration: none ;
+    &:active {
+      box-shadow: none;
+  }
+`;
 
+const DropZone = styled.div`
+  border-style: dashed;
+  color: #FFF;
+  border-width: 0.3rem;
+  width: 95vw;
+  height: 15vh;
 `;
 
 
@@ -35,8 +47,7 @@ function Quiz() {
 
       const binaryStr = reader.result
 
-      if(binaryStr)
-      {
+      if (binaryStr) {
         importQuiz(JSON.parse(binaryStr.toString()))
       } else {
 
@@ -90,18 +101,18 @@ function Quiz() {
   };
 
   const restartQuiz = () => {
-      setCount(0);
-      setGameStatus(true);
-      
-      if(quiz)
+    setCount(0);
+    setGameStatus(true);
+
+    if (quiz)
       importQuiz(quiz);
   }
 
   const resetQuiz = () => {
-      setCount(0);
-      setGameStatus(true);
-      setQuiz(undefined);
-      setShuffle([]);
+    setCount(0);
+    setGameStatus(true);
+    setQuiz(undefined);
+    setShuffle([]);
   }
 
 
@@ -111,8 +122,8 @@ function Quiz() {
         <p>You lost :s</p>
         <p>Phase: {shuffledQuiz[questionsAnswered].Phase}</p>
         <p>Score: {questionsAnswered}/{shuffledQuiz.length + 1}</p>
-        <button onClick= {restartQuiz}>Restart</button>
-        <button onClick= {resetQuiz}>Reset</button>
+        <button onClick={restartQuiz}>Restart</button>
+        <button onClick={resetQuiz}>Reset</button>
       </div>
     );
 
@@ -120,8 +131,8 @@ function Quiz() {
     return (
       <div>
         <p>You Won!!! :)</p>
-        <button onClick= {restartQuiz}>Restart</button>
-        <button onClick= {resetQuiz}>Reset</button>
+        <button onClick={restartQuiz}>Restart</button>
+        <button onClick={resetQuiz}>Reset</button>
       </div>
     );
 
@@ -130,7 +141,7 @@ function Quiz() {
       <p>{quiz.Title} - {questionsAnswered + 1}</p>
       <p>{shuffledQuiz[questionsAnswered].Phase}</p>
       <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question.Question} Answers={shuffledQuiz[questionsAnswered].Question.Answers}></Question>
-      <button onClick= {restartQuiz}>Restart</button>
+      <button onClick={restartQuiz}>Restart</button>
     </div>);
 
 
@@ -142,15 +153,20 @@ function Quiz() {
       <h1>Quizzer</h1>
       <p>A JSON based quiz shuffler.</p>
       {/* <button onClick={() => importQuiz(template)}>Import Template Quiz</button> */}
-      <a href='https://gist.githubusercontent.com/Cabeda/69c1713a6b78100a615f72e7e896ce5b/raw/965419ab56cf00ce6f5529a70eef7aae8ab26346/template-quiz.json' target="_blank">Download Template Quiz</a>
-      <div {...getRootProps()}>
-      <input {...getInputProps()} accept=".json" />
-      {
-        isDragActive ?
-          <p>Drop the json file here ...</p> :
-          <p>Drag 'n' drop some files here, or click to select files</p>
-      }
-    </div>
+
+      <DropZone>
+        <div {...getRootProps()}>
+          <input {...getInputProps()} accept=".json" />
+          {
+            isDragActive ?
+              <p>Drop the json file here ...</p> :
+              <p>Drag 'n' drop some files here, or click to select files</p>
+          }
+        </div>
+      </DropZone>
+      <Link>
+        <a href='https://gist.githubusercontent.com/Cabeda/69c1713a6b78100a615f72e7e896ce5b/raw/965419ab56cf00ce6f5529a70eef7aae8ab26346/template-quiz.json' target="_blank">Download Template Quiz</a>
+      </Link>
     </div>
   );
 }
