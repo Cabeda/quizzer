@@ -1,14 +1,13 @@
 import React, { useState, useCallback } from 'react';
-import template from '../static/quiz-template';
 import Question from './Question.component';
 import { Quizzer } from '../Interfaces/Quizzer.interface.js';
 import { ISfhuffledQuestion as IShuffledQuestion } from '../Interfaces/Shuffler.interface.js';
 import { IPhase } from '../Interfaces/Phase.interface.js';
 import Shuffle from '../Sorter';
 import { IQuestion } from '../Interfaces/Question.interface';
-import { IAnswer } from '../Interfaces/Answer.interface';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
+import QuizOptions from './QuizOption.component';
 
 const Link = styled.a`
     background-color: #FFC107;
@@ -33,7 +32,7 @@ const DropZone = styled.div`
 function Quiz() {
   // Declare a new state variable, which we'll call "count"
   const [questionsAnswered, setCount] = useState(0);
-  const [currentPhase] = useState(0);
+  const [] = useState(0);
   const [shuffledQuiz, setShuffle] = useState<Array<IShuffledQuestion>>([]);
   const [onGame, setGameStatus] = useState(true);
   const [quiz, setQuiz] = useState<Quizzer>();
@@ -122,8 +121,7 @@ function Quiz() {
         <p>You lost :s</p>
         <p>Phase: {shuffledQuiz[questionsAnswered].Phase}</p>
         <p>Score: {questionsAnswered}/{shuffledQuiz.length + 1}</p>
-        <button onClick={restartQuiz}>Restart</button>
-        <button onClick={resetQuiz}>Reset</button>
+        <QuizOptions restartQuiz={restartQuiz} resetQuiz = {resetQuiz} ></QuizOptions>
       </div>
     );
 
@@ -131,8 +129,7 @@ function Quiz() {
     return (
       <div>
         <p>You Won!!! :)</p>
-        <button onClick={restartQuiz}>Restart</button>
-        <button onClick={resetQuiz}>Reset</button>
+        <QuizOptions restartQuiz={restartQuiz} resetQuiz = {resetQuiz} ></QuizOptions>
       </div>
     );
 
@@ -141,7 +138,7 @@ function Quiz() {
       <p>{quiz.Title} - {questionsAnswered + 1}</p>
       <p>{shuffledQuiz[questionsAnswered].Phase}</p>
       <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question.Question} Answers={shuffledQuiz[questionsAnswered].Question.Answers}></Question>
-      <button onClick={restartQuiz}>Restart</button>
+      <QuizOptions restartQuiz={restartQuiz} resetQuiz = {resetQuiz} ></QuizOptions>
     </div>);
 
 
@@ -152,7 +149,6 @@ function Quiz() {
     <div>
       <h1>Quizzer</h1>
       <p>A JSON based quiz shuffler.</p>
-      {/* <button onClick={() => importQuiz(template)}>Import Template Quiz</button> */}
 
       <DropZone>
         <div {...getRootProps()}>
@@ -164,9 +160,7 @@ function Quiz() {
           }
         </div>
       </DropZone>
-      <Link>
-        <a href='https://gist.githubusercontent.com/Cabeda/69c1713a6b78100a615f72e7e896ce5b/raw/965419ab56cf00ce6f5529a70eef7aae8ab26346/template-quiz.json' target="_blank">Download Template Quiz</a>
-      </Link>
+        <Link href='https://gist.githubusercontent.com/Cabeda/69c1713a6b78100a615f72e7e896ce5b/raw/965419ab56cf00ce6f5529a70eef7aae8ab26346/template-quiz.json' target="_blank">Download Template Quiz</Link>
     </div>
   );
 }
