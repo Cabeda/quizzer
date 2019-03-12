@@ -5,7 +5,7 @@ A JSON-based quiz shuffler. Made in React.
 ### Build Status
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a6c8e675-d2fb-412a-a3d4-898db502433c/deploy-status)](https://app.netlify.com/sites/cranky-boyd-e028fd/deploys)
 
-Deployed to quizer.cabeda.me
+Deployed to https://quizzer.cabeda.me
 
 
 ## Available Scripts
