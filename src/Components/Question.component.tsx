@@ -18,10 +18,14 @@ const QuizButton = styled.button`
 function Question(props: IQuestionProps) {
   return (
     <div>
-      <p>{props.Question}</p>
+      {
+        (!props.Question.Image) ? null : 
+        <img src = {props.Question.Image} alt={props.Question.Question} title ={props.Question.Question}></img>
+      }
+      <p>{props.Question.Question}</p>
       <GridAnswers>
         {
-          props.Answers.map((item, key) =>
+          props.Question.Answers.map((item, key) =>
               <QuizButton
                 key={item.Answer}
                 title={item.Answer}

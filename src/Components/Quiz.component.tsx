@@ -129,6 +129,7 @@ function Quiz() {
         <p>You lost :s</p>
         <p>Phase: {shuffledQuiz[questionsAnswered].Phase}</p>
         <p>Score: {questionsAnswered}/{shuffledQuiz.length + 1}</p>
+        <p>The correct answer is: {shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.IsCorrect)!.Answer}</p>
         <QuizOptions restartQuiz={restartQuiz} resetQuiz = {resetQuiz} ></QuizOptions>
       </div>
     );
@@ -145,12 +146,9 @@ function Quiz() {
     return (<div>
       <p>{quiz.Title} - {questionsAnswered + 1}</p>
       <p>{shuffledQuiz[questionsAnswered].Phase}</p>
-      <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question.Question} Answers={shuffledQuiz[questionsAnswered].Question.Answers}></Question>
+      <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question} ></Question>
       <QuizOptions restartQuiz={restartQuiz} resetQuiz = {resetQuiz} ></QuizOptions>
     </div>);
-
-
-
 
   return (
 
