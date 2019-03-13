@@ -9,12 +9,20 @@ import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import QuizOptions from './QuizOption.component';
 
+const Box = styled.div`
+  display:grid;
+  grid-template-columns: auto;
+  grid-template-rows: 1fr 1fr 1fr auto;
+`;
+
+
 const Link = styled.a`
     background-color: #FFC107;
     color: #FFFFFF;
     font-size: 1rem;
-    box-shadow: 2px 4px gray;
+    box-shadow: 2px 2px gray;
     text-decoration: none ;
+    padding: 0.5rem;
     &:active {
       box-shadow: none;
   }
@@ -146,22 +154,19 @@ function Quiz() {
 
   return (
 
-    <div>
+    <Box>
       <h1>Quizzer</h1>
       <p>A JSON based quiz shuffler.</p>
-
-      <DropZone>
-        <div {...getRootProps()}>
+        <DropZone {...getRootProps()}>
           <input {...getInputProps()} accept=".json" />
           {
             isDragActive ?
               <p>Drop the json file here ...</p> :
               <p>Drag 'n' drop some files here, or click to select files</p>
           }
-        </div>
       </DropZone>
         <Link href='https://gist.githubusercontent.com/Cabeda/69c1713a6b78100a615f72e7e896ce5b/raw/965419ab56cf00ce6f5529a70eef7aae8ab26346/template-quiz.json' target="_blank">Download Template Quiz</Link>
-    </div>
+    </Box>
   );
 }
 
