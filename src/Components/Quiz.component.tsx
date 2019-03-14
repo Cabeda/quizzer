@@ -7,13 +7,29 @@ import Shuffle from '../Sorter';
 import { IQuestion } from '../Interfaces/Question.interface';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
-import  QuizOptions from './QuizOption.component';
+import QuizOptions from './QuizOption.component';
+import Progress from './Progress/Progress.component';
+import template from '../static/template-quiz.json'
 
 const Box = styled.div`
   display:grid;
   grid-template-columns: auto;
   grid-template-rows: 1fr 1fr 1fr auto;
 `;
+
+const App = styled.div`
+  text-align: center;
+  background-color: #455A64;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+
+`;
+
 
 
 const Link = styled.a`
@@ -125,36 +141,38 @@ function Quiz() {
 
   if (!onGame)
     return (
-      <div>
+      <App>
         <p>You lost :s</p>
         <p>Phase: {shuffledQuiz[questionsAnswered].Phase}</p>
         <p>Score: {questionsAnswered}/{shuffledQuiz.length + 1}</p>
         <p>The correct answer is: {shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.IsCorrect)!.Answer}</p>
-        <QuizOptions restartQuiz={restartQuiz} resetQuiz = {resetQuiz} ></QuizOptions>
-      </div>
+        <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
+      </App>
     );
 
   if (shuffledQuiz && shuffledQuiz.length > 0 && questionsAnswered === shuffledQuiz.length)
     return (
-      <div>
+      <App>
         <p>You Won!!! :)</p>
-        <QuizOptions restartQuiz={restartQuiz} resetQuiz = {resetQuiz} ></QuizOptions>
-      </div>
+        <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
+      </App>
     );
 
   if (shuffledQuiz && quiz && shuffledQuiz.length > 0)
-    return (<div>
+    return (<App>
       <p>{quiz.Title} - {questionsAnswered + 1}</p>
       <p>{shuffledQuiz[questionsAnswered].Phase}</p>
       <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question} ></Question>
-      <QuizOptions restartQuiz={restartQuiz} resetQuiz = {resetQuiz} ></QuizOptions>
-    </div>);
+      <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
+      <Progress QuestionsAnswered={questionsAnswered} TotalQuestions={shuffledQuiz.length}></Progress>
+    </App>);
 
+  
   return (
-
-    <Box>
-      <h1>Quizzer</h1>
-      <p>A JSON based quiz shuffler.</p>
+    <App>
+      <Box>
+        <h1>Quizzer</h1>
+        <p>A JSON based quiz shuffler.</p>
         <DropZone {...getRootProps()}>
           <input {...getInputProps()} accept=".json" />
           {
@@ -162,9 +180,10 @@ function Quiz() {
               <p>Drop the json file here ...</p> :
               <p>Drag 'n' drop some files here, or click to select files</p>
           }
-      </DropZone>
-        <Link href='https://gist.githubusercontent.com/Cabeda/69c1713a6b78100a615f72e7e896ce5b/raw/965419ab56cf00ce6f5529a70eef7aae8ab26346/template-quiz.json' target="_blank">Download Template Quiz</Link>
-    </Box>
+        </DropZone>
+        <Link href={`data:text/json;charset=utf-8, ${encodeURIComponent(JSON.stringify(template))}` } target="_blank" download="template.json" >Download Template Quiz</Link>
+      </Box>
+    </App>
   );
 }
 

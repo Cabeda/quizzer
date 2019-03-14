@@ -1,0 +1,141 @@
+{
+    "Title": "Quiz test",
+    "Phases": [
+      {
+        "Phase": "Easy",
+        "NumberOfQuestions": 3,
+        "Questions": [
+          {
+            "Question": "In what year was 1984 originally published?",
+            "Answers": [
+              {
+                "Answer": "1984",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "1949",
+                "IsCorrect": true
+              },
+              {
+                "Answer": "1962",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "1970",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "1999",
+                "IsCorrect": false
+              }
+            ]
+          },
+          {
+            "Question": "In what year was Eragon originally published?",
+            "Answers": [
+              {
+                "Answer": "2000",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "2004",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "2005",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "2002",
+                "IsCorrect": true
+              },
+              {
+                "Answer": "2009",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "2010",
+                "IsCorrect": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Phase": "Medium",
+        "NumberOfQuestions": 3,
+        "Questions": [
+          {
+            "Question": "In what year was The Three musketeers originally published?",
+            "Answers": [
+              {
+                "Answer": "1823",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "1860",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "1844",
+                "IsCorrect": true
+              },
+              {
+                "Answer": "1901",
+                "IsCorrect": false
+              }
+            ]
+          },
+          {
+            "Image": "https://pbs.twimg.com/profile_images/1009559413063991296/Mw844O50_400x400.jpg",
+            "Question": "Who is this man?",
+            "Answers": [
+              {
+                "Answer": "Harrison Ford",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "Chistopher Columbus",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "Christopher Paolini",
+                "IsCorrect": true
+              },
+              {
+                "Answer": "Luís Miguel Rocha",
+                "IsCorrect": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Phase": "Hard",
+        "NumberOfQuestions": 4,
+        "Questions": [
+          {
+            "Question": "In what year was Harry Potter and the Philosopher Stone written?",
+            "Answers": [
+              {
+                "Answer": "1997",
+                "IsCorrect": true
+              },
+              {
+                "Answer": "1994",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "1999",
+                "IsCorrect": false
+              },
+              {
+                "Answer": "2000",
+                "IsCorrect": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
