@@ -19,8 +19,7 @@ const Box = styled.div`
 
 const App = styled.div`
   text-align: center;
-  background-color: #455A64;
-  min-height: 100vh;
+  min-height: 97vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,15 +158,19 @@ function Quiz() {
     );
 
   if (shuffledQuiz && quiz && shuffledQuiz.length > 0)
-    return (<App>
-      <p>{quiz.Title} - {questionsAnswered + 1}</p>
-      <p>{shuffledQuiz[questionsAnswered].Phase}</p>
-      <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question} ></Question>
-      <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
-      <Progress QuestionsAnswered={questionsAnswered} TotalQuestions={shuffledQuiz.length}></Progress>
-    </App>);
+    return (
+      <div>
+        <Progress QuestionsAnswered={questionsAnswered} TotalQuestions={shuffledQuiz.length}></Progress>
+        <App>
+          <p>{quiz.Title} - {questionsAnswered + 1}</p>
+          <p>{shuffledQuiz[questionsAnswered].Phase}</p>
+          <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question} ></Question>
+          <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
+        </App>
+      </div>
+    );
 
-  
+
   return (
     <App>
       <Box>
@@ -181,7 +184,7 @@ function Quiz() {
               <p>Drag 'n' drop some files here, or click to select files</p>
           }
         </DropZone>
-        <Link href={`data:text/json;charset=utf-8, ${encodeURIComponent(JSON.stringify(template))}` } target="_blank" download="template.json" >Download Template Quiz</Link>
+        <Link href={`data:text/json;charset=utf-8, ${encodeURIComponent(JSON.stringify(template))}`} target="_blank" download="template.json" >Download Template Quiz</Link>
       </Box>
     </App>
   );
