@@ -7,7 +7,7 @@ import Shuffle from '../Sorter';
 import { IQuestion } from '../Interfaces/Question.interface';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
-import QuizOptions from './QuizOption.component';
+import  QuizOptions from './QuizOption.component';
 
 const Box = styled.div`
   display:grid;

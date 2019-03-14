@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import {IQuizOptions} from '../Interfaces/QuizOptions.interface';
 const OptionsBox = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -13,7 +13,7 @@ const QuizButton = styled.button`
     margin: 1rem;
 `; 
 
-function QuizOptions (props: any) {
+function QuizOptions (props: IQuizOptions) {
 
     return (<OptionsBox>
         <QuizButton className= "accent-color" onClick={props.restartQuiz}>Restart</QuizButton>
