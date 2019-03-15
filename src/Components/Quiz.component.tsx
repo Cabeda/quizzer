@@ -76,7 +76,7 @@ function Quiz() {
       }
     }
 
-    acceptedFiles.forEach((file: Blob) => reader.readAsBinaryString(file))
+    acceptedFiles.forEach((file: Blob) => reader.readAsText(file))
 
   }, [])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
@@ -91,19 +91,23 @@ function Quiz() {
     const newQuiz: Array<IShuffledQuestion> = template.Phases.map((phase) => {
       return shufflePhase(phase);
     }).flat();
-
+    
     setShuffle(newQuiz);
-
+    
   }
 
 
   const shufflePhase = (phase: IPhase): Array<IShuffledQuestion> => {
-    let shuffled: Array<IQuestion> = Shuffle(phase.Questions).slice(0, phase.NumberOfQuestions - 1);
-    let shuffledQUestions: Array<IShuffledQuestion> = shuffled.map((Question) => {
+    let shuffled: Array<IQuestion> = Shuffle(phase.Questions)
+                                        .slice(0, phase.NumberOfQuestions - 1);
+
+    let shuffledQuestions: Array<IShuffledQuestion> = shuffled.map((Question) => {
+      
+      Question.Answers = Shuffle(Question.Answers); //Reshuffle answers order
       return { Phase: phase.Phase, Question };
     });
 
-    return shuffledQUestions;
+    return shuffledQuestions;
   }
 
   const answerQuestion = (answer: string) => {
