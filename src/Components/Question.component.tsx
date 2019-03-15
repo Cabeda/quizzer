@@ -22,7 +22,7 @@ function Question(props: IQuestionProps) {
         (!props.Question.Image) ? null : 
         <img src = {props.Question.Image} alt={props.Question.Question} title ={props.Question.Question}></img>
       }
-      <h4> {props.Question.Question}</h4>
+      <h4>{props.Question.Question}</h4>
       <GridAnswers>
         {
           props.Question.Answers.map((item, key) =>
