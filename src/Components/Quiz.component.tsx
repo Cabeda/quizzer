@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import Question from './Question.component';
 import { Quizzer } from '../Interfaces/Quizzer.interface.js';
 import { ISfhuffledQuestion as IShuffledQuestion } from '../Interfaces/Shuffler.interface.js';
@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import QuizOptions from './QuizOption.component';
 import Progress from './Progress/Progress.component';
 import template from '../static/template-quiz.json'
+import LostGame from './LostGame/LostGame.component';
 
 const Box = styled.div`
   display:grid;
@@ -29,6 +30,11 @@ const App = styled.div`
 
 `;
 
+const QuizButton = styled.button`
+    height: 2rem;
+    border: none;
+    margin: 1rem;
+`;
 
 
 const Link = styled.a`
@@ -58,8 +64,10 @@ function Quiz() {
   const [] = useState(0);
   const [shuffledQuiz, setShuffle] = useState<Array<IShuffledQuestion>>([]);
   const [onGame, setGameStatus] = useState(true);
+  const [FinalMessage, setFinalMessage] = useState("");
   const [quiz, setQuiz] = useState<Quizzer>();
   const [time, setTime] = React.useState<number | null>(null);
+  const [betweenQuestion, setBetweenQuestion] = useState(false);
 
   React.useEffect(() => {
     var timerID = setInterval(() => tick(), 1000);
@@ -70,14 +78,13 @@ function Quiz() {
 
   function tick() {
     console.log(time);
-    
-    if(time)
-      {
-        if (time === 1)
-          setGameStatus(false);
-        else
-          setTime(time - 1);
-      }
+
+    if (time) {
+      if (time === 1)
+        setGameStatus(false);
+      else
+        setTime(time - 1);
+    }
 
   }
 
@@ -139,14 +146,29 @@ function Quiz() {
 
       if (an && !an.IsCorrect) {
         setGameStatus(false);
+        setFinalMessage("You Lost :s");
       } else {
 
         setTime(quiz!.TimerSeconds);
         setCount(questionsAnswered + 1);
+
+        if (quiz!.GiveUp)
+          setBetweenQuestion(true);
+
       }
     }
 
   };
+
+  const giveUp = (gaveUp: boolean) => {
+
+    if (gaveUp) {
+      setGameStatus(false);
+      setFinalMessage("You Gave Up. Want to try again?");
+    }
+
+    setBetweenQuestion(false);
+  }
 
   const restartQuiz = () => {
     setCount(0);
@@ -163,15 +185,26 @@ function Quiz() {
     setShuffle([]);
   }
 
+  if (quiz && betweenQuestion)
+    return (
+      <App>
+        <p>Wanna keep going?</p>
+        <QuizButton className="accent-color" onClick={() => giveUp(false)}>Yes! One More!</QuizButton>
+        <QuizButton className="accent-color" onClick={() => giveUp(true)}>Nope</QuizButton>
+      </App>
+    );
+
 
   if (!onGame)
     return (
       <App>
-        <p>You lost :s</p>
-        <p>Phase: {shuffledQuiz[questionsAnswered].Phase}</p>
-        <p>Score: {questionsAnswered}/{shuffledQuiz.length + 1}</p>
-        <p>The correct answer is: {shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.IsCorrect)!.Answer}</p>
-        <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
+        <LostGame
+          FinalMessage={FinalMessage}
+          Phase={shuffledQuiz[questionsAnswered].Phase}
+          QuestionsAnswered={questionsAnswered}
+          TotalQuestions={shuffledQuiz.length}
+          Answer={shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.IsCorrect)!.Answer}
+          restartQuiz={restartQuiz} resetQuiz={resetQuiz}></LostGame>
       </App>
     );
 

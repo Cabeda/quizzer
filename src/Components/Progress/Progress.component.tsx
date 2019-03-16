@@ -6,7 +6,7 @@ function Progress(props: IProgressProps) {
 
     return (
         <div>
-            <Line percent={(props.QuestionsAnswered/props.TotalQuestions)*100} strokeLinecap="round" strokeWidth="1" strokeColor="#FFC107" />
+            <Line percent={(props.QuestionsAnswered/props.TotalQuestions)*100} strokeLinecap="square" strokeWidth="1" strokeColor="#FFC107" />
         </div>
     );
 }
