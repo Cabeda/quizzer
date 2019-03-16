@@ -11,6 +11,7 @@ import QuizOptions from './QuizOption.component';
 import Progress from './Progress/Progress.component';
 import template from '../static/template-quiz.json'
 import LostGame from './LostGame/LostGame.component';
+import { GameState } from './LostGame/GameState';
 
 const Box = styled.div`
   display:grid;
@@ -63,8 +64,7 @@ function Quiz() {
   const [questionsAnswered, setCount] = useState(0);
   const [] = useState(0);
   const [shuffledQuiz, setShuffle] = useState<Array<IShuffledQuestion>>([]);
-  const [onGame, setGameStatus] = useState(true);
-  const [FinalMessage, setFinalMessage] = useState("");
+  const [state, setGameState] = useState<GameState>(GameState.InGame);
   const [quiz, setQuiz] = useState<Quizzer>();
   const [time, setTime] = React.useState<number | null>(null);
   const [betweenQuestion, setBetweenQuestion] = useState(false);
@@ -81,7 +81,7 @@ function Quiz() {
 
     if (time) {
       if (time === 1)
-        setGameStatus(false);
+        setGameState(GameState.Lost);
       else
         setTime(time - 1);
     }
@@ -113,6 +113,7 @@ function Quiz() {
   const importQuiz = (template: Quizzer) => {
     setQuiz(template);
     setTime(template.TimerSeconds);
+    setGameState(GameState.InGame);
     shuffleIt(template);
   }
 
@@ -145,8 +146,7 @@ function Quiz() {
       const an = shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.Answer === answer)
 
       if (an && !an.IsCorrect) {
-        setGameStatus(false);
-        setFinalMessage("You Lost :s");
+        setGameState(GameState.Lost);
       } else {
 
         setTime(quiz!.TimerSeconds);
@@ -162,17 +162,16 @@ function Quiz() {
 
   const giveUp = (gaveUp: boolean) => {
 
-    if (gaveUp) {
-      setGameStatus(false);
-      setFinalMessage("You Gave Up. Want to try again?");
-    }
+    if (gaveUp)
+      setGameState(GameState.Lost);
 
     setBetweenQuestion(false);
   }
 
   const restartQuiz = () => {
     setCount(0);
-    setGameStatus(true);
+    setGameState(GameState.InGame);
+
 
     if (quiz)
       importQuiz(quiz);
@@ -180,7 +179,7 @@ function Quiz() {
 
   const resetQuiz = () => {
     setCount(0);
-    setGameStatus(true);
+    setGameState(GameState.InGame);
     setQuiz(undefined);
     setShuffle([]);
   }
@@ -195,11 +194,11 @@ function Quiz() {
     );
 
 
-  if (!onGame)
+  if ((state === GameState.Lost || state === GameState.GaveUp) && quiz)
     return (
       <App>
         <LostGame
-          FinalMessage={FinalMessage}
+          GameState= {state}
           Phase={shuffledQuiz[questionsAnswered].Phase}
           QuestionsAnswered={questionsAnswered}
           TotalQuestions={shuffledQuiz.length}

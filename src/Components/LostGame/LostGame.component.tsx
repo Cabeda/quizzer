@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { ILostGameProps } from './LostGame.interface';
 import QuizOptions from '../QuizOption.component';
+import { GameState } from './GameState';
 
 
 const App = styled.div`
@@ -17,15 +18,30 @@ const App = styled.div`
 
 `;
 function LostGame(props: ILostGameProps) {
-    return (
+
+  switch (props.GameState) {
+    case GameState.GaveUp:
+      return (
         <App>
-          <p> {props.FinalMessage}</p>
+          <p>You Gave Up. Want to try again?</p>
+          <p>Phase: {props.Phase}</p>
+          <p>Score: {props.QuestionsAnswered}/{props.TotalQuestions}</p>
+          <QuizOptions restartQuiz={props.restartQuiz} resetQuiz={props.resetQuiz} ></QuizOptions>
+        </App>
+      );
+      break;
+    default:
+      return (
+        <App>
+          <p>You Lost :s</p>
           <p>Phase: {props.Phase}</p>
           <p>Score: {props.QuestionsAnswered}/{props.TotalQuestions}</p>
           <p>The correct answer is: {props.Answer}</p>
           <QuizOptions restartQuiz={props.restartQuiz} resetQuiz={props.resetQuiz} ></QuizOptions>
         </App>
       );
+      break;
+  }
 }
 
 

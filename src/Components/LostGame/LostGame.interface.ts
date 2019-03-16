@@ -1,5 +1,7 @@
+import {GameState} from './GameState';
+
 export interface ILostGameProps {
-    FinalMessage: string,
+    GameState: GameState,
     Phase:string,
     QuestionsAnswered: number,
     TotalQuestions: number,
