@@ -163,7 +163,7 @@ function Quiz() {
   const giveUp = (gaveUp: boolean) => {
 
     if (gaveUp)
-      setGameState(GameState.Lost);
+      setGameState(GameState.GaveUp);
 
     setBetweenQuestion(false);
   }
