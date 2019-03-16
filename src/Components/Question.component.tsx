@@ -9,6 +9,12 @@ const GridAnswers = styled.div`
   grid-template-rows: auto;
 `;
 
+
+const GridContainer = styled.div`
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+`;
+
 const QuizButton = styled.button`
     margin: 1rem;
     height: 5rem;
