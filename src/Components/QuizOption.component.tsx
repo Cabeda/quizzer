@@ -9,7 +9,7 @@ const OptionsBox = styled.div`
 `;
 
 const QuizButton = styled.button`
-    height: 5rem;
+    height: 2rem;
     border: none;
     margin: 1rem;
 `; 

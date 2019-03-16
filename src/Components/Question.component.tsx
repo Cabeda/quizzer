@@ -11,7 +11,7 @@ const GridAnswers = styled.div`
 
 const QuizButton = styled.button`
     margin: 1rem;
-    height: 2rem;
+    height: 5rem;
     border: none;
 `;
 
