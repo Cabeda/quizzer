@@ -17,33 +17,31 @@ const GridContainer = styled.div`
 
 const QuizButton = styled.button`
     margin: 1rem;
-    height: 2rem;
+    height: 5rem;
     border: none;
 `;
 
 function Question(props: IQuestionProps) {
   return (
-    <GridContainer>
-      
-    </GridContainer>
-
-    // <GridContainer>
-    //   {
-    //     (!props.Question.Image) ? null : 
-    //     <img src = {props.Question.Image} alt={props.Question.Question} title ={props.Question.Question}></img>
-    //   }
-    //   <p>{props.Question.Question}</p>
-    //     {
-    //       props.Question.Answers.map((item, key) =>
-    //           <QuizButton
-    //             key={item.Answer}
-    //             title={item.Answer}
-    //             className= "accent-color"
-    //             onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.Answered(event.currentTarget.title)}
-    //           >{item.Answer}</QuizButton>
-    //       )
-    //     }
-    //   </GridContainer>
+    <div>
+      {
+        (!props.Question.Image) ? null : 
+        <img src = {props.Question.Image} alt={props.Question.Question} title ={props.Question.Question}></img>
+      }
+      <h4>{props.Question.Question}</h4>
+      <GridAnswers>
+        {
+          props.Question.Answers.map((item, key) =>
+              <QuizButton
+                key={item.Answer}
+                title={item.Answer}
+                className= "accent-color"
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.Answered(event.currentTarget.title)}
+              >{item.Answer}</QuizButton>
+          )
+        }
+      </GridAnswers>
+    </div>
   );
 }
 

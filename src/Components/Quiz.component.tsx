@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Question from './Question.component';
 import { Quizzer } from '../Interfaces/Quizzer.interface.js';
 import { ISfhuffledQuestion as IShuffledQuestion } from '../Interfaces/Shuffler.interface.js';
@@ -7,13 +7,28 @@ import Shuffle from '../Sorter';
 import { IQuestion } from '../Interfaces/Question.interface';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
-import  QuizOptions from './QuizOption.component';
+import QuizOptions from './QuizOption.component';
+import Progress from './Progress/Progress.component';
+import template from '../static/template-quiz.json'
 
 const Box = styled.div`
   display:grid;
   grid-template-columns: auto;
   grid-template-rows: 1fr 1fr 1fr auto;
 `;
+
+const App = styled.div`
+  text-align: center;
+  min-height: 97vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+
+`;
+
 
 
 const Link = styled.a`
@@ -44,6 +59,27 @@ function Quiz() {
   const [shuffledQuiz, setShuffle] = useState<Array<IShuffledQuestion>>([]);
   const [onGame, setGameStatus] = useState(true);
   const [quiz, setQuiz] = useState<Quizzer>();
+  const [time, setTime] = React.useState<number | null>(null);
+
+  React.useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    console.log(time);
+    
+    if(time)
+      {
+        if (time === 1)
+          setGameStatus(false);
+        else
+          setTime(time - 1);
+      }
+
+  }
 
   const onDrop = useCallback(acceptedFiles => {
     const reader = new FileReader()
@@ -61,7 +97,7 @@ function Quiz() {
       }
     }
 
-    acceptedFiles.forEach((file: Blob) => reader.readAsBinaryString(file))
+    acceptedFiles.forEach((file: Blob) => reader.readAsText(file))
 
   }, [])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
@@ -69,6 +105,7 @@ function Quiz() {
 
   const importQuiz = (template: Quizzer) => {
     setQuiz(template);
+    setTime(template.TimerSeconds);
     shuffleIt(template);
   }
 
@@ -83,12 +120,16 @@ function Quiz() {
 
 
   const shufflePhase = (phase: IPhase): Array<IShuffledQuestion> => {
-    let shuffled: Array<IQuestion> = Shuffle(phase.Questions).slice(0, phase.NumberOfQuestions - 1);
-    let shuffledQUestions: Array<IShuffledQuestion> = shuffled.map((Question) => {
+    let shuffled: Array<IQuestion> = Shuffle(phase.Questions)
+      .slice(0, phase.NumberOfQuestions - 1);
+
+    let shuffledQuestions: Array<IShuffledQuestion> = shuffled.map((Question) => {
+
+      Question.Answers = Shuffle(Question.Answers); //Reshuffle answers order
       return { Phase: phase.Phase, Question };
     });
 
-    return shuffledQUestions;
+    return shuffledQuestions;
   }
 
   const answerQuestion = (answer: string) => {
@@ -97,10 +138,10 @@ function Quiz() {
       const an = shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.Answer === answer)
 
       if (an && !an.IsCorrect) {
-
         setGameStatus(false);
       } else {
 
+        setTime(quiz!.TimerSeconds);
         setCount(questionsAnswered + 1);
       }
     }
@@ -125,36 +166,43 @@ function Quiz() {
 
   if (!onGame)
     return (
-      <div>
+      <App>
         <p>You lost :s</p>
         <p>Phase: {shuffledQuiz[questionsAnswered].Phase}</p>
         <p>Score: {questionsAnswered}/{shuffledQuiz.length + 1}</p>
         <p>The correct answer is: {shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.IsCorrect)!.Answer}</p>
-        <QuizOptions restartQuiz={restartQuiz} resetQuiz = {resetQuiz} ></QuizOptions>
-      </div>
+        <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
+      </App>
     );
 
   if (shuffledQuiz && shuffledQuiz.length > 0 && questionsAnswered === shuffledQuiz.length)
     return (
-      <div>
+      <App>
         <p>You Won!!! :)</p>
-        <QuizOptions restartQuiz={restartQuiz} resetQuiz = {resetQuiz} ></QuizOptions>
-      </div>
+        <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
+      </App>
     );
 
   if (shuffledQuiz && quiz && shuffledQuiz.length > 0)
-    return (<div>
-      <p>{quiz.Title} - {questionsAnswered + 1}</p>
-      <p>{shuffledQuiz[questionsAnswered].Phase}</p>
-      <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question} ></Question>
-      <QuizOptions restartQuiz={restartQuiz} resetQuiz = {resetQuiz} ></QuizOptions>
-    </div>);
+    return (
+      <div>
+        <Progress QuestionsAnswered={questionsAnswered} TotalQuestions={shuffledQuiz.length}></Progress>
+        <App>
+          {time && <h4>{time}</h4>}
+          <p>{quiz.Title} - {questionsAnswered + 1}</p>
+          <p>{shuffledQuiz[questionsAnswered].Phase}</p>
+          <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question} ></Question>
+          <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
+        </App>
+      </div>
+    );
+
 
   return (
-
-    <Box>
-      <h1>Quizzer</h1>
-      <p>A JSON based quiz shuffler.</p>
+    <App>
+      <Box>
+        <h1>Quizzer</h1>
+        <p>A JSON based quiz shuffler.</p>
         <DropZone {...getRootProps()}>
           <input {...getInputProps()} accept=".json" />
           {
@@ -162,9 +210,10 @@ function Quiz() {
               <p>Drop the json file here ...</p> :
               <p>Drag 'n' drop some files here, or click to select files</p>
           }
-      </DropZone>
-        <Link href='https://gist.githubusercontent.com/Cabeda/69c1713a6b78100a615f72e7e896ce5b/raw/965419ab56cf00ce6f5529a70eef7aae8ab26346/template-quiz.json' target="_blank">Download Template Quiz</Link>
-    </Box>
+        </DropZone>
+        <Link href={`data:text/json;charset=utf-8, ${encodeURIComponent(JSON.stringify(template))}`} target="_blank" download="template.json" >Download Template Quiz</Link>
+      </Box>
+    </App>
   );
 }
 
