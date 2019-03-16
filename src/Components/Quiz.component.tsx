@@ -77,8 +77,6 @@ function Quiz() {
   });
 
   function tick() {
-    console.log(time);
-
     if (time) {
       if (time === 1)
         setGameState(GameState.Lost);
