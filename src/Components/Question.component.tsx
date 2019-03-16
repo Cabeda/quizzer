@@ -9,6 +9,12 @@ const GridAnswers = styled.div`
   grid-template-rows: auto;
 `;
 
+
+const GridContainer = styled.div`
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+`;
+
 const QuizButton = styled.button`
     margin: 1rem;
     height: 2rem;
@@ -17,25 +23,27 @@ const QuizButton = styled.button`
 
 function Question(props: IQuestionProps) {
   return (
-    <div>
-      {
-        (!props.Question.Image) ? null : 
-        <img src = {props.Question.Image} alt={props.Question.Question} title ={props.Question.Question}></img>
-      }
-      <p>{props.Question.Question}</p>
-      <GridAnswers>
-        {
-          props.Question.Answers.map((item, key) =>
-              <QuizButton
-                key={item.Answer}
-                title={item.Answer}
-                className= "accent-color"
-                onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.Answered(event.currentTarget.title)}
-              >{item.Answer}</QuizButton>
-          )
-        }
-      </GridAnswers>
-    </div>
+    <GridContainer>
+      
+    </GridContainer>
+
+    // <GridContainer>
+    //   {
+    //     (!props.Question.Image) ? null : 
+    //     <img src = {props.Question.Image} alt={props.Question.Question} title ={props.Question.Question}></img>
+    //   }
+    //   <p>{props.Question.Question}</p>
+    //     {
+    //       props.Question.Answers.map((item, key) =>
+    //           <QuizButton
+    //             key={item.Answer}
+    //             title={item.Answer}
+    //             className= "accent-color"
+    //             onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.Answered(event.currentTarget.title)}
+    //           >{item.Answer}</QuizButton>
+    //       )
+    //     }
+    //   </GridContainer>
   );
 }
 
