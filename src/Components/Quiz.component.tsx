@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Question from './Question.component';
 import { Quizzer } from '../Interfaces/Quizzer.interface.js';
 import { ISfhuffledQuestion as IShuffledQuestion } from '../Interfaces/Shuffler.interface.js';
@@ -59,6 +59,27 @@ function Quiz() {
   const [shuffledQuiz, setShuffle] = useState<Array<IShuffledQuestion>>([]);
   const [onGame, setGameStatus] = useState(true);
   const [quiz, setQuiz] = useState<Quizzer>();
+  const [time, setTime] = React.useState<number | null>(null);
+
+  React.useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    console.log(time);
+    
+    if(time)
+      {
+        if (time === 1)
+          setGameStatus(false);
+        else
+          setTime(time - 1);
+      }
+
+  }
 
   const onDrop = useCallback(acceptedFiles => {
     const reader = new FileReader()
@@ -84,6 +105,7 @@ function Quiz() {
 
   const importQuiz = (template: Quizzer) => {
     setQuiz(template);
+    setTime(template.TimerSeconds);
     shuffleIt(template);
   }
 
@@ -91,18 +113,18 @@ function Quiz() {
     const newQuiz: Array<IShuffledQuestion> = template.Phases.map((phase) => {
       return shufflePhase(phase);
     }).flat();
-    
+
     setShuffle(newQuiz);
-    
+
   }
 
 
   const shufflePhase = (phase: IPhase): Array<IShuffledQuestion> => {
     let shuffled: Array<IQuestion> = Shuffle(phase.Questions)
-                                        .slice(0, phase.NumberOfQuestions - 1);
+      .slice(0, phase.NumberOfQuestions - 1);
 
     let shuffledQuestions: Array<IShuffledQuestion> = shuffled.map((Question) => {
-      
+
       Question.Answers = Shuffle(Question.Answers); //Reshuffle answers order
       return { Phase: phase.Phase, Question };
     });
@@ -116,10 +138,10 @@ function Quiz() {
       const an = shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.Answer === answer)
 
       if (an && !an.IsCorrect) {
-
         setGameStatus(false);
       } else {
 
+        setTime(quiz!.TimerSeconds);
         setCount(questionsAnswered + 1);
       }
     }
@@ -166,6 +188,7 @@ function Quiz() {
       <div>
         <Progress QuestionsAnswered={questionsAnswered} TotalQuestions={shuffledQuiz.length}></Progress>
         <App>
+          {time && <h4>{time}</h4>}
           <p>{quiz.Title} - {questionsAnswered + 1}</p>
           <p>{shuffledQuiz[questionsAnswered].Phase}</p>
           <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question} ></Question>

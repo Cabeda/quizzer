@@ -1,6 +1,6 @@
 {
     "Title": "Quiz test",
-    "TimerSeconds": "30",
+    "TimerSeconds": 30,
     "Phases": [
       {
         "Phase": "Easy",
