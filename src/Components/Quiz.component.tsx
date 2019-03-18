@@ -144,50 +144,56 @@ function Quiz() {
       const an = shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.Answer === answer)
 
       if (an && !an.IsCorrect) {
-        setGameState(GameState.Lost);
+        changeGameStatus(GameState.Lost);
       } else {
-
         setTime(quiz!.TimerSeconds);
         setCount(questionsAnswered + 1);
 
         if (quiz!.GiveUp)
           setBetweenQuestion(true);
-
       }
     }
 
   };
 
-  const giveUp = (gaveUp: boolean) => {
+  const changeGameStatus = (state: GameState) => {
 
-    if (gaveUp)
-      setGameState(GameState.GaveUp);
+    switch (state) {
+      case GameState.GaveUp:
+        setGameState(GameState.GaveUp);
+        break;
+      case GameState.Lost:
+        setGameState(GameState.Lost);
+        break;
+      default:
+        break;
+    }
 
-    setBetweenQuestion(false);
+      setBetweenQuestion(false);
   }
 
   const restartQuiz = () => {
     setCount(0);
+    setTime(null);
     setGameState(GameState.InGame);
-
-
-    if (quiz)
-      importQuiz(quiz);
+    importQuiz(quiz!);
   }
 
   const resetQuiz = () => {
     setCount(0);
+    setTime(null);
     setGameState(GameState.InGame);
     setQuiz(undefined);
     setShuffle([]);
+
   }
 
   if (quiz && betweenQuestion)
     return (
       <App>
         <p>Wanna keep going?</p>
-        <QuizButton className="accent-color" onClick={() => giveUp(false)}>Yes! One More!</QuizButton>
-        <QuizButton className="accent-color" onClick={() => giveUp(true)}>Nope</QuizButton>
+        <QuizButton className="accent-color" onClick={() => changeGameStatus(GameState.InGame)}>Yes! One More!</QuizButton>
+        <QuizButton className="accent-color" onClick={() => changeGameStatus(GameState.GaveUp)}>Nope</QuizButton>
       </App>
     );
 
@@ -196,7 +202,7 @@ function Quiz() {
     return (
       <App>
         <LostGame
-          GameState= {state}
+          GameState={state}
           Phase={shuffledQuiz[questionsAnswered].Phase}
           QuestionsAnswered={questionsAnswered}
           TotalQuestions={shuffledQuiz.length}
