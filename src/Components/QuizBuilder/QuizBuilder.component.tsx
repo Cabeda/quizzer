@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { Quizzer } from '../../Interfaces/Quizzer.interface';
 import json from '../../static/template-quiz.json';
-import PhaseBuilder  from './PhaseBuilder';
+import PhaseBuilder from '../PhaseBuilder/PhaseBuilder';
 
 const App = styled.div`
   text-align: center;
@@ -29,13 +29,6 @@ const Fieldset = styled.fieldset`
   padding: 4px;
   margin: 2em auto;
   border: 0 none;
-`;
-
-
-const QuizButton = styled.button`
-    height: 2rem;
-    border: none;
-    margin: 1rem;
 `;
 
 
@@ -92,18 +85,48 @@ function QuizBuilder() {
         setQuiz(newQuiz);
     }
 
+    const handleHasTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newQuiz = { ...quiz };
+        setHasTimer(e.currentTarget.checked);
+
+        if(e.target.checked) {
+            delete newQuiz["TimerSeconds"];
+        } else {
+            newQuiz["TimerSeconds"] = 30;
+        }
+        setQuiz(newQuiz);
+    }
+
     const handleTimerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newQuiz = { ...quiz };
         newQuiz.TimerSeconds = Number.parseInt(e.target.value);
         setQuiz(newQuiz);
     }
 
-    const addPhase = (name: string, NumberOfQuestions: number) => {
-        quiz.Phases.push({Phase: name, NumberOfQuestions, Questions:[]});
-    } 
+    const addPhase = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const newQuiz = { ...quiz };
+        newQuiz.Phases.push({ Phase: "Test", NumberOfQuestions: 5, Questions: [] });
+        setQuiz(newQuiz);
 
-    const removeQuestion = (name: string, ) => {
-        
+    }
+
+    const onNumberOfQuestionsChange = (phaseName: string, value: string) => {
+        const newQuiz = { ...quiz };
+        const index = newQuiz.Phases.findIndex(x => x.Phase === phaseName);
+        newQuiz.Phases[index].NumberOfQuestions = Number.parseInt(value);
+        setQuiz(newQuiz);
+    }
+
+    const onPhaseNameChange = (phaseName: string, value: string) => {
+        const newQuiz = { ...quiz };
+        const index = newQuiz.Phases.findIndex(x => x.Phase === phaseName);
+        newQuiz.Phases[index].Phase = value;
+        setQuiz(newQuiz);
+    }
+
+    const addQuestion = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
     }
 
 
@@ -131,7 +154,7 @@ function QuizBuilder() {
                         </label>
                         <label>
                             Set Timer:
-                <input type="checkbox" onChange={(e) => setHasTimer(e.target.checked)} checked={hasTimer}></input>
+                <input type="checkbox" onChange={handleHasTime} checked={hasTimer}></input>
                         </label>
                         {
                             hasTimer && (
@@ -146,8 +169,9 @@ function QuizBuilder() {
                 <input type="checkbox" onChange={handleGiveUpChange} checked={quiz.GiveUp ? quiz.GiveUp : false}></input>
                         </label>
                         {
-                            quiz.Phases.map((x) => <PhaseBuilder {...x}></PhaseBuilder>)
+                            quiz.Phases.map((x) => <PhaseBuilder key={x.Phase} Phase={x} onNumberOfQuestionsChange={onNumberOfQuestionsChange} onPhaseNameChange={onPhaseNameChange} addQuestion={addQuestion}></PhaseBuilder>)
                         }
+                        <button onClick={addPhase}>Add Phase</button>
                     </Container>
                 </Fieldset>
             </form>
