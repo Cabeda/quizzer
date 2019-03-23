@@ -9,9 +9,9 @@ import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import QuizOptions from './QuizOption.component';
 import Progress from './Progress/Progress.component';
-import template from '../static/template-quiz.json'
 import LostGame from './LostGame/LostGame.component';
 import { GameState } from './LostGame/GameState';
+import { Link } from 'react-router-dom';
 
 const Box = styled.div`
   display:grid;
@@ -38,9 +38,9 @@ const QuizButton = styled.button`
 `;
 
 
-const Link = styled.a`
+const LinkStyle = styled.button`
     background-color: #FFC107;
-    color: #FFFFFF;
+    color: black;
     font-size: 1rem;
     box-shadow: 2px 2px gray;
     text-decoration: none ;
@@ -77,7 +77,7 @@ function Quiz() {
   });
 
   function tick() {
-    if (time) {
+    if (time && !betweenQuestion) {
       if (time === 1)
         setGameState(GameState.Lost);
       else
@@ -169,7 +169,7 @@ function Quiz() {
         break;
     }
 
-      setBetweenQuestion(false);
+    setBetweenQuestion(false);
   }
 
   const restartQuiz = () => {
@@ -247,7 +247,10 @@ function Quiz() {
               <p>Drag 'n' drop some files here, or click to select files</p>
           }
         </DropZone>
-        <Link href={`data:text/json;charset=utf-8, ${encodeURIComponent(JSON.stringify(template))}`} target="_blank" download="template.json" >Download Template Quiz</Link>
+        {/* <h3>Or</h3>
+        <LinkStyle>
+          <Link to="/builder"> Create with the Builder</Link>
+        </LinkStyle> */}
       </Box>
     </App>
   );

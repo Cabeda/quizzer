@@ -1,16 +1,21 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import "./App.css";
 import Quiz from "./Components/Quiz.component";
+import QuizBuilder from './Components/QuizBuilder/QuizBuilder.component';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Quiz />
-      </div>
-    );
-  }
+
+function App() {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Quiz} />
+        <Route path="/builder" component={QuizBuilder} />
+        <Route component={Quiz}></Route>
+      </Switch>
+    </Router>
+  );
 }
 
 export default App;
