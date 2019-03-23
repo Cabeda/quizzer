@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const GridAnswers = styled.div`
   display:grid;
-  grid-template-columns: 1fr 1fr;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-template-rows: auto;
 `;
 
@@ -15,40 +15,59 @@ const GridContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
 `;
 
+const ButtonContainer = styled.div`
+	display: grid;
+	grid-gap: 1rem;
+
+  @media (max-width: 400px) {
+  grid-template-columns: 1fr;
+    
+  }
+
+  @media (min-width: 401px) {
+  grid-column: 1 / span 4;
+  grid-template-columns: 1fr 1fr;
+    
+  }
+`;
+
 const QuizButton = styled.button`
-    margin: 1rem;
-    height: 5rem;
+    min-height: 5rem;
     font-size: 1.5rem;
     font-weight: bold;
     border: none;
 `;
 
 const Image = styled.img`
-  width: 100%;
-  height: auto;
+  max-height:40vh;
+  max-width: 100vw;
+`;
+
+const MainTitle = styled.h4`
+  grid-column: 1 / 4;
 `;
 
 function Question(props: IQuestionProps) {
   return (
-    <div>
+    <GridAnswers>
       {
         (!props.Question.Image) ? null :
           <Image src={props.Question.Image} alt={props.Question.Question} title={props.Question.Question}></Image>
       }
-      <h4>{props.Question.Question}</h4>
-      <GridAnswers>
-        {
+      <MainTitle>{props.Question.Question}</MainTitle>
+      <ButtonContainer>
+      {
           props.Question.Answers.map((item, key) =>
             <QuizButton
-              key={item.Answer}
-              title={item.Answer}
-              className="accent-color"
-              onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.Answered(event.currentTarget.title)}
-            >{item.Answer}</QuizButton>
+            key={item.Answer}
+            title={item.Answer}
+            className="accent-color"
+            onClick={(event: React.MouseEvent<HTMLButtonElement>) => props.Answered(event.currentTarget.title)}
+          >{item.Answer}</QuizButton>
           )
         }
+        </ButtonContainer>
       </GridAnswers>
-    </div>
   );
 }
 
