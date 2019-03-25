@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik';
 
 import { Quizzer } from '../../Interfaces/Quizzer.interface';
 import json from '../../static/template-quiz.json';
@@ -89,7 +90,7 @@ function QuizBuilder() {
         const newQuiz = { ...quiz };
         setHasTimer(e.currentTarget.checked);
 
-        if(e.target.checked) {
+        if (e.target.checked) {
             delete newQuiz["TimerSeconds"];
         } else {
             newQuiz["TimerSeconds"] = 30;
@@ -144,8 +145,69 @@ function QuizBuilder() {
                         <p>Drag 'n' drop some files here, or click to select files</p>
                 }
             </DropZone>
-
-            <form>
+            <Formik
+                initialValues={quiz}
+                validate={values => {
+                    let errors = {} as any;
+                    if (!values.Title) {
+                        errors.Title = 'Required';
+                    }
+                    return errors;
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                    setTimeout(() => {
+                        alert(JSON.stringify(values, null, 2));
+                        setSubmitting(false);
+                    }, 400);
+                }}
+            >
+                {({ isSubmitting }) => (
+                    <Form>
+                        <Field type="Title" name="Title" />
+                        <ErrorMessage name="Title" component="div" />
+                        <Field type="TimerSeconds" name="TimerSeconds" />
+                        <ErrorMessage name="TimerSeconds" component="div" />
+                        <Field name="Phases[0].Phase" />
+                        <Field name="Phases[0].Questions[0].Question" />
+                        <Field name="Phases[0].Questions[0].Answers[0].Answer" />
+                        <FieldArray
+                            name="Phases"
+                            render={arrayHelpers => (
+                                <div>
+                                    {quiz.Phases && quiz.Phases.length > 0 ? (
+                                        quiz.Phases.map((phase, index) => (
+                                            <div key={index}>
+                                                <Field name={`Phases.${index}.Phase`} />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                                                >
+                                                    -
+                      </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => arrayHelpers.insert(index, '')} // insert an empty string at a position
+                                                >
+                                                    +
+                      </button>
+                                            </div>
+                                        ))
+                                    ) : (
+                                            <button type="button" onClick={() => arrayHelpers.push('')}>
+                                                {/* show this when user has removed all friends from the list */}
+                                                Add a Phase
+                  </button>
+                                        )}
+                                    <div>
+                                        <button type="submit">Submit</button>
+                                    </div>
+                                </div>
+                            )}
+                        />
+                    </Form>
+                )}
+            </Formik>
+            {/* <form>
                 <Fieldset>
                     <Container>
                         <label>
@@ -174,7 +236,7 @@ function QuizBuilder() {
                         <button onClick={addPhase}>Add Phase</button>
                     </Container>
                 </Fieldset>
-            </form>
+            </form> */}
             <LinkStyle href={`data:text/json;charset=utf-8, ${encodeURIComponent(JSON.stringify(quiz))}`} target="_blank" download={`${quiz.Title}.json`} >Download Template Quiz</LinkStyle>
         </App>
     );

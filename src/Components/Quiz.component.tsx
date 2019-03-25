@@ -224,10 +224,9 @@ function Quiz() {
       <div>
         <Progress QuestionsAnswered={questionsAnswered} TotalQuestions={shuffledQuiz.length}></Progress>
         <App>
-          {time && <h4>{time}</h4>}
-          <p>{quiz.Title} - {questionsAnswered + 1}</p>
+          <h2>{quiz.Title} - {questionsAnswered + 1}</h2>
           <p>{shuffledQuiz[questionsAnswered].Phase}</p>
-          <Question Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question} ></Question>
+          <Question Timer={time} Answered={answerQuestion} Question={shuffledQuiz[questionsAnswered].Question} ></Question>
           <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
         </App>
       </div>
