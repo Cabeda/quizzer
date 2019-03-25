@@ -44,7 +44,7 @@ const Image = styled.img`
 `;
 
 const MainTitle = styled.h4`
-  grid-column: 1 / 4;
+  grid-column: 1 / span 4;
 `;
 
 function Question(props: IQuestionProps) {
