@@ -9,5 +9,6 @@ export interface IQuestion {
 
 export interface IQuestionProps {
     Answered(answer: string): void,
+    Timer: number | null,
     Question: IQuestion
 }

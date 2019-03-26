@@ -52,6 +52,7 @@ function Question(props: IQuestionProps) {
         (!props.Question.Image) ? null :
           <Image src={props.Question.Image} alt={props.Question.Question} title={props.Question.Question}></Image>
       }
+      {props.Timer &&  <MainTitle>{props.Timer}</MainTitle>}
       <MainTitle>{props.Question.Question}</MainTitle>
       <ButtonContainer>
       {
