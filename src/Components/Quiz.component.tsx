@@ -11,10 +11,13 @@ import QuizOptions from './QuizOption.component';
 import Progress from './Progress/Progress.component';
 import LostGame from './LostGame/LostGame.component';
 import { GameState } from './LostGame/GameState';
-import { Link } from 'react-router-dom';
+//@ts-ignore
+import ParticleField from 'react-particles-webgl';
+import config from '../static/particle-config';
 
 const Box = styled.div`
   display:grid;
+  position:absolute;
   grid-template-columns: auto;
   grid-template-rows: 1fr 1fr 1fr auto;
 `;
@@ -31,6 +34,7 @@ const App = styled.div`
 
 `;
 
+
 const QuizButton = styled.button`
     height: 2rem;
     border: none;
@@ -38,17 +42,6 @@ const QuizButton = styled.button`
 `;
 
 
-const LinkStyle = styled.button`
-    background-color: #FFC107;
-    color: black;
-    font-size: 1rem;
-    box-shadow: 2px 2px gray;
-    text-decoration: none ;
-    padding: 0.5rem;
-    &:active {
-      box-shadow: none;
-  }
-`;
 
 const DropZone = styled.div`
   border-style: dashed;
@@ -236,6 +229,7 @@ function Quiz() {
 
   return (
     <App>
+      <ParticleField config={config}/>
       <Box>
         <h1>Quizzer</h1>
         <p>A JSON based quiz shuffler.</p>
