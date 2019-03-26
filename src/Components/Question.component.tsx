@@ -9,12 +9,6 @@ const GridAnswers = styled.div`
   grid-template-rows: auto;
 `;
 
-
-const GridContainer = styled.div`
-  display:grid;
-  grid-template-columns: repeat(4, 1fr);
-`;
-
 const ButtonContainer = styled.div`
 	display: grid;
 	grid-gap: 1rem;
@@ -41,6 +35,10 @@ const QuizButton = styled.button`
 const Image = styled.img`
   max-height:40vh;
   max-width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 `;
 
 const MainTitle = styled.h4`
