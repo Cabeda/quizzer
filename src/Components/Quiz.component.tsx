@@ -70,7 +70,7 @@ function Quiz() {
   });
 
   function tick() {
-    if (time && !betweenQuestion) {
+    if (time && !betweenQuestion && state === GameState.InGame) {
       if (time === 1)
         setGameState(GameState.Lost);
       else
@@ -131,6 +131,7 @@ function Quiz() {
     return shuffledQuestions;
   }
 
+
   const answerQuestion = (answer: string) => {
 
     if (shuffledQuiz) {
@@ -142,7 +143,10 @@ function Quiz() {
         setTime(quiz!.TimerSeconds);
         setCount(questionsAnswered + 1);
 
-        if (quiz!.GiveUp)
+        if (questionsAnswered + 1 === shuffledQuiz.length) {
+          changeGameStatus(GameState.Won);
+
+        } else if (quiz!.GiveUp )
           setBetweenQuestion(true);
       }
     }
@@ -154,6 +158,9 @@ function Quiz() {
     switch (state) {
       case GameState.GaveUp:
         setGameState(GameState.GaveUp);
+        break;
+      case GameState.Won:
+        setGameState(GameState.Won);
         break;
       case GameState.Lost:
         setGameState(GameState.Lost);
@@ -181,17 +188,7 @@ function Quiz() {
 
   }
 
-  if (quiz && betweenQuestion)
-    return (
-      <App>
-        <p>Wanna keep going?</p>
-        <QuizButton className="accent-color" onClick={() => changeGameStatus(GameState.InGame)}>Yes! One More!</QuizButton>
-        <QuizButton className="accent-color" onClick={() => changeGameStatus(GameState.GaveUp)}>Nope</QuizButton>
-      </App>
-    );
-
-
-  if ((state === GameState.Lost || state === GameState.GaveUp) && quiz)
+  if (quiz && state !== GameState.InGame)
     return (
       <App>
         <LostGame
@@ -203,14 +200,17 @@ function Quiz() {
           restartQuiz={restartQuiz} resetQuiz={resetQuiz}></LostGame>
       </App>
     );
-
-  if (shuffledQuiz && shuffledQuiz.length > 0 && questionsAnswered === shuffledQuiz.length)
+    
+  if (quiz && betweenQuestion && state === GameState.InGame)
     return (
       <App>
-        <p>You Won!!! :)</p>
-        <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
+        <p>Wanna keep going?</p>
+        <QuizButton className="accent-color" onClick={() => changeGameStatus(GameState.InGame)}>Yes! One More!</QuizButton>
+        <QuizButton className="accent-color" onClick={() => changeGameStatus(GameState.GaveUp)}>Nope</QuizButton>
       </App>
     );
+
+
 
   if (shuffledQuiz && quiz && shuffledQuiz.length > 0)
     return (
@@ -228,7 +228,7 @@ function Quiz() {
 
   return (
     <App>
-      <ParticleField config={config}/>
+      <ParticleField config={config} />
       <Box>
         <h1>Quizzer</h1>
         <p>A JSON based quiz shuffler.</p>

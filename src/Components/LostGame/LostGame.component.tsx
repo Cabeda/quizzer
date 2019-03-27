@@ -30,6 +30,13 @@ function LostGame(props: ILostGameProps) {
         </App>
       );
       break;
+    case GameState.Won:
+      return (
+        <App>
+          <p>You Won!!! :)</p>
+          <QuizOptions restartQuiz={props.restartQuiz} resetQuiz={props.resetQuiz} ></QuizOptions>
+        </App>
+      );
     default:
       return (
         <App>
