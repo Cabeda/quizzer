@@ -14,7 +14,7 @@ const App = styled.div`
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #000;
 
 `;
 function LostGame(props: ILostGameProps) {

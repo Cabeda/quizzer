@@ -30,8 +30,9 @@ const App = styled.div`
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
-
+  color: #000;
+  font-weight: bold;
+  background-color: rgba(255,255,255, 0.2)
 `;
 
 
@@ -45,7 +46,7 @@ const QuizButton = styled.button`
 
 const DropZone = styled.div`
   border-style: dashed;
-  color: #FFF;
+  color: #000000;
   border-width: 0.3rem;
   width: 95vw;
   height: 15vh;

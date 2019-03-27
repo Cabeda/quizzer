@@ -46,7 +46,7 @@ const LinkStyle = styled.a`
 
 const DropZone = styled.div`
   border-style: dashed;
-  color: #FFF;
+  color: #000;
   border-width: 0.3rem;
   width: 95vw;
   height: 15vh;

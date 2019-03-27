@@ -6,8 +6,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #455A64;
-  background-image: url("https://drive.google.com/uc?1GxPrcWjnCxy1peArb55RmA0w8oQKWm0v")
+  /* background-color: #455A64; */
+  background-image: url("static/Background.jpeg");
 }
 
 a {
@@ -28,7 +28,7 @@ code {
 .dark-primary-color    { background: #455A64; }
 .default-primary-color { background: #607D8B; }
 .light-primary-color   { background: #CFD8DC; }
-.text-primary-color    { color: #FFFFFF; }
+.text-primary-color    { color: #000; }
 .accent-color          { background: #FFC107; }
 .primary-text-color    { color: #212121; }
 .secondary-text-color  { color: #757575; }

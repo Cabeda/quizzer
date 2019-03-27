@@ -11,8 +11,8 @@ const config = {
     velocity: 2,
     lines: {
       colorMode: "solid",
-      color: "#3FB568",
-      transparency: 0.9,
+      color: "#000",
+      transparency: 0,
       limitConnections: true,
       maxConnections: 20,
       minDistance: 60,
@@ -20,8 +20,8 @@ const config = {
     },
     particles: {
       colorMode: "solid",
-      color: "#FFF",
-      transparency: 0.2,
+      color: "#000",
+      transparency: 0.5,
       shape: "circle",
       boundingBox: "canvas",
       count: 300,
