@@ -4,7 +4,7 @@ import { IQuestionProps } from "../Interfaces/Question.interface";
 import styled from 'styled-components';
 
 const GridAnswers = styled.div`
-  display:grid;
+  /* display:grid; */
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-template-rows: auto;
 `;
