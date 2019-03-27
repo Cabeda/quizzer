@@ -32,7 +32,7 @@ const App = styled.div`
   font-size: calc(10px + 2vmin);
   color: #000;
   font-weight: bold;
-  background-color: rgba(255,255,255, 0.2)
+  background-color: rgba(255,255,255, 0.2);
 `;
 
 
@@ -185,8 +185,8 @@ function Quiz() {
   if (quiz && betweenQuestion)
     return (
       <App>
-        <p>Wanna keep going?</p>
-        <QuizButton className="accent-color" onClick={() => changeGameStatus(GameState.InGame)}>Yes! One More!</QuizButton>
+        <p>Queres continuar?</p>
+        <QuizButton className="accent-color" onClick={() => changeGameStatus(GameState.InGame)}>Sim! Mais uma!</QuizButton>
         <QuizButton className="accent-color" onClick={() => changeGameStatus(GameState.GaveUp)}>Nope</QuizButton>
       </App>
     );
@@ -208,7 +208,7 @@ function Quiz() {
   if (shuffledQuiz && shuffledQuiz.length > 0 && questionsAnswered === shuffledQuiz.length)
     return (
       <App>
-        <p>You Won!!! :)</p>
+        <p>Ganhaste!!! :)</p>
         <QuizOptions restartQuiz={restartQuiz} resetQuiz={resetQuiz} ></QuizOptions>
       </App>
     );
@@ -232,13 +232,13 @@ function Quiz() {
       <ParticleField config={config}/>
       <Box>
         <h1>Quizzer</h1>
-        <p>A JSON based quiz shuffler.</p>
+        <p>Um sorteador de quizzes baseado em ficheiros JSON.</p>
         <DropZone {...getRootProps()}>
           <input {...getInputProps()} accept=".json" />
           {
             isDragActive ?
-              <p>Drop the json file here ...</p> :
-              <p>Drag 'n' drop some files here, or click to select files</p>
+              <p>Arrasta o ficheir json para aqui ...</p> :
+              <p>Arrasta um ficheiro json para aqui, ou clica e seleciona o ficheiro</p>
           }
         </DropZone>
         {/* <h3>Or</h3>

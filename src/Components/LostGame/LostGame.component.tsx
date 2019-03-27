@@ -23,9 +23,9 @@ function LostGame(props: ILostGameProps) {
     case GameState.GaveUp:
       return (
         <App>
-          <p>You Gave Up. Want to try again?</p>
-          <p>Phase: {props.Phase}</p>
-          <p>Score: {props.QuestionsAnswered}/{props.TotalQuestions}</p>
+          <p>Desististe. Queres tentar de novo?</p>
+          <p>Fase: {props.Phase}</p>
+          <p>Resultado: {props.QuestionsAnswered}/{props.TotalQuestions}</p>
           <QuizOptions restartQuiz={props.restartQuiz} resetQuiz={props.resetQuiz} ></QuizOptions>
         </App>
       );
@@ -33,10 +33,10 @@ function LostGame(props: ILostGameProps) {
     default:
       return (
         <App>
-          <p>You Lost :s</p>
-          <p>Phase: {props.Phase}</p>
-          <p>Score: {props.QuestionsAnswered}/{props.TotalQuestions}</p>
-          <p>The correct answer is: {props.Answer}</p>
+          <p>Perdeste :s</p>
+          <p>Fase: {props.Phase}</p>
+          <p>Resultado: {props.QuestionsAnswered}/{props.TotalQuestions}</p>
+          <p>Resposta correta: {props.Answer}</p>
           <QuizOptions restartQuiz={props.restartQuiz} resetQuiz={props.resetQuiz} ></QuizOptions>
         </App>
       );
