@@ -193,10 +193,10 @@ function Quiz() {
       <App>
         <LostGame
           GameState={state}
-          Phase={shuffledQuiz[questionsAnswered].Phase}
+          Phase={state === GameState.Won ? "" :   shuffledQuiz[questionsAnswered].Phase}
           QuestionsAnswered={questionsAnswered}
           TotalQuestions={shuffledQuiz.length}
-          Answer={shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.IsCorrect)!.Answer}
+          Answer={state === GameState.Won ? "" : shuffledQuiz[questionsAnswered].Question.Answers.find((item) => item.IsCorrect)!.Answer}
           restartQuiz={restartQuiz} resetQuiz={resetQuiz}></LostGame>
       </App>
     );
