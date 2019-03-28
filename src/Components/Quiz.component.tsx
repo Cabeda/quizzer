@@ -120,7 +120,7 @@ function Quiz() {
 
   const shufflePhase = (phase: IPhase): Array<IShuffledQuestion> => {
     let shuffled: Array<IQuestion> = Shuffle(phase.Questions)
-      .slice(0, phase.NumberOfQuestions - 1);
+      .slice(0, phase.NumberOfQuestions);
 
     let shuffledQuestions: Array<IShuffledQuestion> = shuffled.map((Question) => {
 
