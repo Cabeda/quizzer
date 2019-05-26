@@ -1,6 +1,6 @@
 
 /**
- * Fisherâ€“Yates shuffle
+ * Fisher Yates shuffle
  * @param array Array to be shuffled
  */
 function Shuffle(array: any) {
