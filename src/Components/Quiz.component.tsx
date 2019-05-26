@@ -34,6 +34,17 @@ const App = styled.div`
 
 `;
 
+const LinkStyle = styled.a`
+    background-color: #FFC107;
+    font-size: 1rem;
+    box-shadow: 2px 2px gray;
+    text-decoration: none ;
+    padding: 0.5rem;
+    &:active {
+      box-shadow: none;
+  }
+`;
+
 
 const QuizButton = styled.button`
     height: 2rem;
@@ -244,6 +255,7 @@ function Quiz() {
         <LinkStyle>
           <Link to="/builder"> Create with the Builder</Link>
         </LinkStyle> */}
+        <LinkStyle href={`data:text/json;charset=utf-8, ${encodeURIComponent(JSON.stringify(quiz))}`} target="_blank" download={`template.json`} >Download Template Quiz</LinkStyle>
       </Box>
     </App>
   );
